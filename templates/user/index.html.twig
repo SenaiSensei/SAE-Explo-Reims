@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.firstname }}{% endblock %}
+
+{% block body %}
+    <main class="relative bg-cover bg-center min-h-screen pb-28 pt-8 px-4 " style="background-image: url('{{ asset('images/landing_page_bg.png') }}');">
+        <!-- Button burger -->
+        <button id="burger-button" class="fixed top-50 left-5 bg-gray-800 text-white p-2 rounded-md z-50" onclick="toggleMenu()">
+            <span class="block w-6 h-1 bg-white mb-1"></span>
+            <span class="block w-6 h-1 bg-white mb-1"></span>
+            <span class="block w-6 h-1 bg-white"></span>
+        </button>
+
+        <!-- Drop-down burger menu -->
+        <div id="burger-menu" class="fixed top-0 w-64 h-full bg-gray-800 text-white transition-all duration-300 -left-[300px] z-40 flex items-center">
+            <ul class="flex flex-col space-y-8 p-5">
+                <li><a href="{{ path('app_home') }}" class="text-lg hover:text-gray-300">Accueil</a></li>
+                <li><a href="{{ path('app_place') }}" class="text-lg hover:text-gray-300">Lieux</a></li>
+                <li><a href="{{ path('app_itinerary') }}" class="text-lg hover:text-gray-300">Parcours</a></li>
+                <li><a href="{{ path('app_category') }}" class="text-lg hover:text-gray-300">Catégories</a></li>
+                <li><a href="{{ path('app_logout') }}" class="text-lg hover:text-gray-300">Se déconnecter</a></li>
+            </ul>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg p-8 w-fit mx-auto">
+            <!-- Page Title -->
+            <div class="text-center pt-10">
+                <h1 class="text-4xl font-bold text-gray-800 bg-white dark:text-white dark:bg-black bg-opacity-80 p-4 rounded-lg shadow-lg inline-block">
+                    Profil Utilisateur
+                </h1>
+            </div>
+
+            <!-- Main content -->
+            <div class="pt-10 lg:pt-20 lg:flex lg:items-center lg:justify-center lg:space-x-10 max-w-7xl mx-auto transition-all duration-300">
+                <!-- Profile picture et information -->
+                <div class="flex flex-col items-center lg:w-1/3">
+                    <!-- Profile picture -->
+                    <div class="profile-picture w-56 h-56 overflow-hidden rounded-full border-4 border-gray-200 dark:border-black shadow-lg">
+                        <img src="{{ asset('images/default.jpg') }}" alt="Profile Picture" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- User information -->
+                    <div class="profile-info mt-6 p-6 bg-white dark:bg-black dark:text-white bg-opacity-80 rounded-lg shadow-lg max-w-lg text-center">
+                        <div class="info text-lg mb-2"><strong>Prénom :</strong> {{ user.firstname }}</div>
+                        <div class="info text-lg mb-2"><strong>Nom :</strong> {{ user.lastname }}</div>
+                        <div class="info text-lg mb-2"><strong>Email :</strong> {{ user.email }}</div>
+                        <div class="info text-lg mb-2"><strong>Téléphone :</strong> {{ user.phone ? user.phone : 'Pas spécifié' }}</div>
+                        <div class="bg-gray-800 text-lg text-center text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                            <a href="{{ path('app_user_change_password') }}">
+                                Modifier le mot de passe
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Favorite Place -->
+                <div class="favorite-places mt-10 lg:mt-0 lg:w-1/3 bg-white dark:bg-black bg-opacity-80 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-4 text-center dark:text-white">Lieux favoris</h2>
+                    {% if favoritePlaces|length > 0 %}
+                        <ul>
+                            {% for place in favoritePlaces %}
+                                <li class="mb-4">
+                                    <strong class="text-lg dark:text-white">{{ place.name }}</strong>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">{{ place.description }}...</p>
+                                    <a href="{{ path('app_placeById', { id: place.id }) }}" class="text-blue-600 hover:underline">Voir le lieu</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-gray-600 dark:text-gray-300 text-center">Vous n'avez pas encore ajouté de lieux favoris.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menu = document.getElementById('burger-menu');
+            menu.classList.add('-left-[300px]');
+        });
+
+        function toggleMenu() {
+            const menu = document.getElementById('burger-menu');
+            if (menu.classList.contains('-left-[300px]')) {
+                menu.classList.remove('-left-[300px]');
+                menu.classList.add('left-0');
+            } else {
+                menu.classList.add('-left-[300px]');
+                menu.classList.remove('left-0');
+            }
+        }
+    </script>
+{% endblock %}

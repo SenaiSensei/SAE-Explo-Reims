@@ -1,0 +1,7 @@
+{% if isGood[id] %}
+    <button class= "absolute top-1/2 right-1 m-1 text-red-500 font-semibold bx bxs-heart rounded-md text-2xl z-10 remove-fav-button"
+            type="button" onclick="gestionFav({{ id }},'{{ route }}')"></button>
+{% else %}
+    <button class= "absolute top-1/2 right-1 m-1 text-black font-semibold bx bx-heart rounded-md text-2xl z-10 add-fav-button"
+            type="button" onclick="gestionFav({{ id }},'{{ route }}')"></button>
+{% endif%}

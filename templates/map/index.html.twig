@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carte{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!--
+        This div element is used to pass JSON data from the Symfony controller to the Twig view,
+        and then make it accessible to JavaScript with data-* attribute.
+    -->
+    <div id="places" data-places="{{ places|escape('html_attr') }}"></div>
+    <!--
+        This div element is used to pass coordinates from the Symfony controller to the Twig view,
+        and then make it accessible to JavaScript with data-* attribute.
+    -->
+    <div id="coordinates" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}"></div>
+
+    <div class="bg-pastel text-black lg:mt-4 lg:max-w-6xl lg:m-auto">
+
+        <div id="map" class="z-10 w-full h-screen border border-gold rounded-lg shadow-lg">
+            <form name="filter" method="get" action="{{ path('app_map') }}">
+                <label class="z-[999] absolute top-0 right-0 mt-3 mr-3 text-black font-montserrat font-bold text-sm md:text-lg">
+                    <select name="filter" onchange="this.form.submit()" class="p-2">
+                        <option value="">Toutes les catégories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.name }}" {% if category.name == filter %} selected {% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </form>
+        </div>
+
+    </div>
+
+    <script type="module" src="{{ asset('js/map.js') }}"></script>
+    {{ include('_footer.html.twig') }}
+{% endblock %}

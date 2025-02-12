@@ -1,0 +1,30 @@
+<div class="bg-white shadow-lg rounded-lg p-6 lg:col-span-2 flex flex-col lg:flex-row items-center animate-fadeIn delay-400 dark:bg-dark_cards">
+    <div class="w-full lg:w-1/3 mr-6 mb-6 lg:mb-0">
+        <img src="{{ asset('images/default.jpg') }}" alt="Itinerary Image" class="w-full h-auto rounded-lg">
+    </div>
+    <div class="w-full lg:w-2/3">
+        <h3 class="text-2xl font-bold text-gray-800 mb-4 dark:text-white">Parcours préféré des utilisateurs</h3>
+        <p class=" text-xl text-gray-700 font-semibold mb-4 dark:text-white">{{ bestItinerary.name }}</p>
+        <p class="text-lg text-gray-600 mb-4 dark:text-white">{{ bestItinerary.description }}</p>
+        <div class="flex flex-wrap mb-4">
+            <div class="w-1/2 sm:w-1/4 p-2">
+                <p class="text-sm text-gray-600 font-medium dark:text-white">Durée moyenne</p>
+                <p class="text-lg text-gray-800 font-bold dark:text-white">{{ bestItinerary.time }}</p>
+            </div>
+            <div class="w-1/2 sm:w-1/4 p-2">
+                <p class="text-sm text-gray-600 font-medium dark:text-white">Distance moyenne</p>
+                <p class="text-lg text-gray-800 font-bold dark:text-white">{{ bestItinerary.note}} km</p>
+            </div>
+            <div class="w-1/2 sm:w-1/4 p-2">
+                <p class="text-sm text-gray-600 font-medium dark:text-white">Note</p>
+                <p class="text-lg text-green-500 font-bold">{{ bestItinerary.note }} / 5</p>
+            </div>
+            <div class="w-1/2 sm:w-1/4 p-2">
+                <p class="text-sm text-gray-600 font-medium dark:text-white">Créé par</p>
+                <p class="text-lg text-gray-800 font-bold dark:text-white">
+                    {{ bestItinerary.user.firstname }} {{ bestItinerary.user.lastname }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

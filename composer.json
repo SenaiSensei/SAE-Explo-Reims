@@ -1,0 +1,176 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-http": "*",
+        "ext-iconv": "*",
+        "beberlei/doctrineextensions": "^1.5",
+        "doctrine/dbal": "^3",
+        "doctrine/doctrine-bundle": "^2.13",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/orm": "^3.3",
+        "phpdocumentor/reflection-docblock": "^5.6",
+        "phpstan/phpdoc-parser": "^2.0",
+        "symfony/asset": "6.4.*",
+        "symfony/asset-mapper": "6.4.*",
+        "symfony/console": "6.4.*",
+        "symfony/doctrine-messenger": "6.4.*",
+        "symfony/dotenv": "6.4.*",
+        "symfony/expression-language": "6.4.*",
+        "symfony/flex": "^2",
+        "symfony/form": "6.4.*",
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/http-client": "6.4.*",
+        "symfony/intl": "6.4.*",
+        "symfony/mailer": "6.4.*",
+        "symfony/mime": "6.4.*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/notifier": "6.4.*",
+        "symfony/process": "6.4.*",
+        "symfony/property-access": "6.4.*",
+        "symfony/property-info": "6.4.*",
+        "symfony/runtime": "6.4.*",
+        "symfony/security-bundle": "6.4.*",
+        "symfony/serializer": "6.4.*",
+        "symfony/stimulus-bundle": "^2.21",
+        "symfony/string": "6.4.*",
+        "symfony/translation": "6.4.*",
+        "symfony/twig-bundle": "6.4.*",
+        "symfony/ux-turbo": "^2.21",
+        "symfony/validator": "6.4.*",
+        "symfony/web-link": "6.4.*",
+        "symfony/webpack-encore-bundle": "^2.2",
+        "symfony/yaml": "6.4.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/intl-extra": "^3.18",
+        "twig/twig": "^2.12|^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts",
+            "npm install",
+            "npm run build"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts",
+            "npm install",
+            "npm run build"
+        ],
+        "start" : [
+            "Composer\\Config::disableProcessTimeout",
+            "symfony serve"
+        ],
+        "start-dev" : [
+            "Composer\\Config::disableProcessTimeout",
+            "symfony serve -d",
+            "npm run watch"
+        ],
+        "fix:phpcs": [
+            "php-cs-fixer fix"
+        ],
+        "test:phpcs" : [
+            "php-cs-fixer fix --dry-run"
+        ],
+        "fix:twigcs" : [
+            "twig-cs-fixer lint --fix"
+        ],
+        "test:twigcs" : [
+            "twig-cs-fixer lint"
+        ],
+        "test:codeception" : [
+            "php vendor/bin/codecept clean",
+            "php bin/console doctrine:database:drop --force --quiet --env=test",
+            "php bin/console doctrine:database:create --quiet --env=test",
+            "php bin/console doctrine:schema:create --quiet --env=test",
+            "php vendor/bin/codecept run"
+        ],
+        "test" : [
+            "@test:phpcs",
+            "@test:twigcs",
+            "@test:codeception"
+        ],
+        "db": [
+            "php bin/console doctrine:database:drop --force --if-exists",
+            "php bin/console doctrine:database:create",
+            "php bin/console doctrine:migrations:migrate --no-interaction",
+            "php bin/console doctrine:fixtures:load --no-interaction"
+        ]
+    },
+    "scripts-descriptions": {
+        "start" : "Run symfony server",
+        "start-dev" : "Start Symfony server in background and watch for changes in assets (e.g., CSS, JS) during development",
+        "fix:twigcs" : "Fix Twig code with TWIG CS FIXER",
+        "test:twigcs" : "Test Twig code with TWIG CS FIXER",
+        "fix:phpcs": "Fix PHP code with PHP CS Fixer",
+        "test:phpcs" : "Test PHP code with PHP CS Fixer",
+        "test:codeception" : "Initialise test Database before run all the tests",
+        "test" : "Run all the verifications and tests of this project",
+        "db" : "Forced delete of DB then Create application of following migrations and finnaly generate fake data with faker",
+        "npm install" : "This command installs all necessary dependencies (e.g. Tailwind CSS, Webpack Encore).",
+        "npm run build" : "This will generate the necessary files in the public/build folder"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.4.*"
+        }
+    },
+    "require-dev": {
+        "codeception/codeception": "^5.1",
+        "codeception/module-asserts": "^3.0",
+        "codeception/module-doctrine": "^3.1",
+        "codeception/module-symfony": "^3.5",
+        "codeception/module-webdriver": "*",
+        "doctrine/doctrine-fixtures-bundle": "^3.6",
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.4.*",
+        "symfony/css-selector": "6.4.*",
+        "symfony/debug-bundle": "6.4.*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^7.1",
+        "symfony/stopwatch": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*",
+        "vincentlanglet/twig-cs-fixer": "^3.3",
+        "zenstruck/foundry": "^2.2"
+    }
+}

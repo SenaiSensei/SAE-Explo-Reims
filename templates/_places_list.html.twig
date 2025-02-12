@@ -1,0 +1,5 @@
+<div class="flex gap-6 lg:gap-10 pb-8 pt-2 w-full overflow-x-auto scrollbar scrollbar-thumb-dark_gold scrollbar-track-transparent">
+    {% for place in places %}
+        {{ include('_place.html.twig') }}
+    {% endfor %}
+</div>

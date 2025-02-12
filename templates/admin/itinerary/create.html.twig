@@ -1,0 +1,27 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    Création d'un itinéraire
+{% endblock %}
+
+{% block body %}
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md dark:bg-dark_cards dark:text-white">
+        <h1 class="text-2xl mb-4">Création d'un nouveau parcours</h1>
+
+        {{ form_start(form) }}
+        <div class="mb-4">
+            {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 dark:text-white'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'input-field'}}) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.description, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 dark:text-white'}}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'input-field'}}) }}
+        </div>
+
+        <div class="flex justify-end">
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Créer ce parcours !</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

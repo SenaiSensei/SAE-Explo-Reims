@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Explo'Reims | Catégories{% endblock %}
+
+{% block body %}
+    <main class="w-full max-w-6xl mx-auto flex flex-col px-5">
+        <h1 class="font-montserrat text-dark_blue dark:text-pastel font-bold mt-10 text-4xl">Catégories</h1>
+        {% for category in categories %}
+            <section class="flex flex-col mb-6">
+                <div class="flex items-center my-7">
+                    <div class="flex-1 border-t-4 border-dark_gold"></div>
+                    <h2 class="mx-2 text-2xl sm:text-4xl font-medieval font-semibold text-dark_blue dark:text-pastel text-center">{{ category.name }}</h2>
+                    <div class="flex-1 border-t-4 border-dark_gold"></div>
+                </div>
+                {% if category.places|length == 0 %}
+                    <span class="font-montserrat text-dark_blue dark:text-primary italic font-medium">Aucun lieu pour cette catégorie.</span>
+                {% else %}
+                    {{ include('_places_list.html.twig', {places: category.places}) }}
+                {% endif %}
+            </section>
+        {% endfor %}
+    </main>
+    {{ include('_map_button.html.twig') }}
+    {{ include(('_footer.html.twig')) }}
+    <script src="{{ asset('js/favoris.js') }}"></script>
+{% endblock %}

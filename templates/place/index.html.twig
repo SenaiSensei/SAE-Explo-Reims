@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieux{% endblock %}
+
+{% block research %}
+    <div class = "w-10 relative md:mr-6 text-center">
+        <label class="bx bx-search-alt dark:text-white text-3xl pr-2.5 absolute left-0 top-0 md:pt-1 lg:pt-2"></label>
+        <input type="checkbox" id ="menu-cb" class="w-8 h-8 absolute appearance-none left-0 top-0 hover:cursor-pointer">
+        <nav id = "menu-nav" class="z-10 absolute top-10 right-5 origin-top-left">
+            <ul>
+                <form class="m-2 p-2 bg-white dark:bg-black rounded-sm right-0 flex flex-col " action="{{ path('app_place') }}" method ="GET">
+                    <input class="rounded-sm mb-1 dark:text-white" type="search" placeholder="recherche" name="search">
+                    <button class="bg-green-500 dark:bg-green-900 dark:text-white rounded-sm" type="submit">recherche</button>
+                </form>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+{% block body %}
+    <main class = "sm:max-w-screen-sm lg:max-w-screen-lg m-auto bottom-20">
+        {% if favoritePlace??false %}
+        <div class="flex items-center my-7">
+            <div class="flex-1 border-t-4 border-dark_gold"></div>
+            <h2 class="mx-2 text-2xl sm:text-4xl font-medieval font-semibold text-dark_blue dark:text-primary text-center">Favoris</h2>
+            <div class="flex-1 border-t-4 border-dark_gold"></div>
+        </div>
+            {% if not favoritePlace is empty %}
+                <p id = "text" class="font-montserrat hidden text-dark_blue dark:text-primary italic font-medium text-center">N'hésitez pas a ajouter des Favoris avec le <span class = "bx bx-heart"></span>.</p>
+                <div id ="favoris" class =" flex flex-row flex-wrap justify-center">
+                    {% for place in favoritePlace %}
+                        {{ include('_place.html.twig', {place: place}) }}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p id= "text" class="font-montserrat text-dark_blue italic dark:text-primary font-medium text-center">N'hésitez pas a ajouter des Favoris avec le <span class = "bx bx-heart dark:text-white"></span>.</p>
+                <div id ="favoris" class =" flex flex-row flex-wrap justify-center">
+                </div>
+            {% endif %}
+        <div class="flex items-center my-7">
+            <div class="flex-1 border-t-4 border-dark_gold"></div>
+        </div>
+        {% endif %}
+        <div id="pasFavoris" class =" flex flex-row flex-wrap justify-center">
+            {% for place in places %}
+                {{ include('_place.html.twig', {place: place}) }}
+            {% endfor %}
+        </div>
+    </main>
+    <script src ="{{ asset('js/place.js') }}"></script>
+    <script src ="{{ asset('js/favoris.js') }}"></script>
+    {{ include('_footer.html.twig') }}
+{% endblock %}

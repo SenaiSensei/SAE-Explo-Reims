@@ -1,0 +1,25 @@
+{% set rate = entity.note ? entity.note : 0 %}
+{% set nb_full_stars = rate|round(0, 'floor') %}
+{% set nb_empty_stars = 5 - nb_full_stars %}
+<div class="flex text-burgundy_red items-center">
+    {% if nb_full_stars > 0 %}
+        {% for i in range(0, nb_full_stars - 1) %}
+            <i class="bx bxs-star"></i>
+        {% endfor %}
+    {% endif %}
+    {% if rate < 5 %}
+        {% if rate - nb_full_stars >= 0.5 %}
+            <i class="bx bxs-star-half"></i>
+            {% if nb_full_stars < 4 %}
+                {% for i in range(nb_empty_stars - 1, 1) %}
+                    <i class="bx bx-star"></i>
+                {% endfor %}
+            {% endif %}
+        {% else %}
+            {% for i in range(nb_empty_stars, 1) %}
+                <i class="bx bx-star"></i>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    <span class="ml-1 block">{{ rate }}</span>
+</div>

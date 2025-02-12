@@ -1,0 +1,30 @@
+<div class="flex gap-6 lg:gap-10 pb-2 pt-2 w-full overflow-x-auto scrollbar scrollbar-thumb-dark_gold scrollbar-track-transparent itineraryList">
+    {% for itinerary in itineraries %}
+        <a href="itinerary/{{ itinerary.id }}">
+            <div id = "item-{{ itinerary.id }}" class="flex flex-col font-montserrat font-semibold w-48 sm:w-96 shrink-0
+                    tracking-tight bg-almond_pastel rounded-2xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
+                    transition-transform transform hover:translate-y-[-5px] duration-300
+                    ease-in-out hover:shadow-[0px_6px_10px_rgba(0,0,0,0.3)] relative">
+
+                <img class="rounded-t-2xl shadow-md mb-2 w-full h-32 sm:h-40 object-cover" src="{{ asset(itinerary.image) }}" alt="placeholder"/>
+                <div class="px-2 pb-2 flex-col">
+                    <p class="text-dark_blue text-lg">{{ itinerary.name }}</p>
+                    <p class="text-sm !important font-normal !important"><i class='bx bx-time'></i> {{ itinerary.time ? itinerary.time : 'Inconnue' }} | <i class='bx bx-run' ></i> {{ itinerary.distance ? itinerary.distance : 'Inconnue' }}</p>
+                    {{ include('_rating_stars.html.twig', {entity: itinerary}) }}
+                    {% set max_desc_length = 150 %}
+                    <p class="hidden sm:block font-medium text-sm !important h-20 overflow-hidden">{{ itinerary.description|length > max_desc_length ? itinerary.description|slice(0, max_desc_length) ~ '...' : itinerary.description }}</p>
+                    <p class="w-fit text-dark_gold ml-auto hover:text-amber-400 transition-transform duration-300 mt-6">En savoir plus</p>
+                </div>
+                {% if user ?? false and user == 'user' %}
+                    <a class="absolute right-1 top-1 p-3 bg-green-500 dark:bg-green-850 bx bx-edit-alt z-20 cursor-pointer rounded-md "
+                       href="{{ path('app_update_itinerary',{id: itinerary.id}) }}"></a>
+                    <button class="absolute left-2 top-1 p-3 bg-red-500 dark:bg-red-850 bx bx-trash-alt z-20 cursor-pointer rounded-md remove-button"
+                            data-itinerary="{{ itinerary.id }}" type="button" onclick="showAlert({{ itinerary.id }})"></button>
+                {% endif %}
+            </div>
+        </a>
+    {% endfor %}
+    {% if user ?? false and user == 'user' %}
+        <a class = "bg-green-500 dark:bg-green-850 font-semibold text-3xl px-5 content-center text-dark_blue rounded-md shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_10px_rgba(0,0,0,0.3)]" href="{{ path('app_create_itinerary') }}">+</a>
+    {% endif %}
+</div>

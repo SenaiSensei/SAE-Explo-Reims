@@ -1,0 +1,9 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    Édition de {{ user.lastname }}
+{% endblock %}
+
+{% block body %}
+    {{ include('user/_form.html.twig', {form: form, id: user.id, submit_label: 'Modifier cet utilisateur !', confirm_message: 'Êtes-vous sûr de vouloir modifier cet utilisateur ?'}, with_context=false) }}
+{% endblock %}

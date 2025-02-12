@@ -1,0 +1,20 @@
+{% set rate = place.note ? place.note|round(1) : 0 %}
+        {% set nb_full_stars = rate|round(0, 'floor') %}
+        {% set nb_empty_stars = 5 - nb_full_stars %}
+<div class="flex flex-row mt-1 text-burgundy_red items-center dark:text-l_burgundy_red">
+    {% if nb_full_stars != 0 %}
+        {% for i in 0..nb_full_stars - 1 %}
+            <i class="bx bxs-star"></i>
+        {% endfor %}
+    {% endif %}
+    {% if rate - nb_full_stars >= 0.5 %}
+        <i class="bx bxs-star-half"></i>
+        {% set nb_empty_stars = nb_empty_stars - 1 %}
+    {% endif %}
+    {% if nb_empty_stars != 0 %}
+        {% for i in 0..nb_empty_stars - 1 %}
+            <i class="bx bx-star"></i>
+        {% endfor %}
+    {% endif %}
+    <span class="font-semibold text-base text-burgundy_red dark:text-l_burgundy_red mt-1 ml-1">{{ rate }}</span>
+</div>

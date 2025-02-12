@@ -1,0 +1,58 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    {{ itinerary.name }} - Suppression
+{% endblock %}
+
+{% block body %}
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md dark:bg-dark_cards dark:text-white">
+        <h1 class="text-2xl font-semibold text-red-600 mb-4">Confirmer la suppression</h1>
+
+        <p class="mb-4">Êtes-vous sûr de vouloir supprimer le parcours suivant : <span class="font-bold">{{ itinerary.name }}</span> ?
+            Cette action est irréversible.</p>
+
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold mb-2">Détails du parcours :</h2>
+            <ul class="list-disc ml-6">
+                <li><strong>Description :</strong> {{ itinerary.description }}</li>
+                <li><strong>Temps estimé :</strong> {{ itinerary.time ?: 'Non renseigné' }}</li>
+                <li><strong>Distance :</strong> {{ itinerary.distance ?: 'Non renseignée' }}</li>
+                <li>
+                    <strong>Lieux inclus :</strong>
+                    {% if itinerary.pathOrder is not empty %}
+                        <ul class="list-disc ml-6 mt-1">
+                            {% for place in itinerary.pathOrder %}
+                                <li>{{ place.place.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        Aucun lieu inclus.
+                    {% endif %}
+                </li>
+                <li>
+                    <strong>Image :</strong>
+                    {% if itinerary.image is not null %}
+                        <img src="{{ path('app_imageById', {id: itinerary.image.id}) }}" alt="Image de l'itinéraire" class="w-24 h-24 object-cover rounded-lg mt-2">
+                    {% else %}
+                        Pas d'image associée.
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+
+        {{ form_start(form) }}
+        <div class="flex justify-between">
+            {{ form_widget(form.cancel, {
+                attr: {
+                    class: 'bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition',
+                },
+            }) }}
+            {{ form_widget(form.delete, {
+                attr: {
+                    class: 'bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition',
+                },
+            }) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    Création d'une catégorie
+{% endblock %}
+
+{% block body %}
+    <div class="flex h-[calc(100vh-120px)] items-center flex-grow">
+        {{ include('category/_form.html.twig', {form: form, submit_label: 'Créer une catégorie !', confirm_message: ''}, with_context=false) }}
+    </div>
+{% endblock %}

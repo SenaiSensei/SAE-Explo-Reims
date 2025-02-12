@@ -1,0 +1,9 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    Édition de la catégorie {{ category.name }}
+{% endblock %}
+
+{% block body %}
+    {{ include('category/_form.html.twig', {form: form, submit_label: 'Modifier le nom de cette catégorie !', confirm_message: 'Êtes-vous sûr de vouloir modifier cette catégorie ?'}, with_context=false) }}
+{% endblock %}

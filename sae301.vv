@@ -1,0 +1,10 @@
+[virt-viewer]
+type=vnc
+title=sae301
+host=one-dell1
+port=13065
+proxy=http://one-frontend:29876?token=xokvjtv5h1wi99l30xcg
+fullscreen=0
+toggle-fullscreen=shift+f11
+release-cursor=shift+f12
+secure-attention=ctrl+alt+end

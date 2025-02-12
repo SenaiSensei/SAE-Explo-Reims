@@ -1,0 +1,92 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Lieux{% endblock %}
+
+{% set tdClass = 'border-y-2 border-zinc-100 py-3 px-2 lg:py-4 lg:px-3 dark:text-white dark:border-[#313438]' %}
+{% set thClass = 'font-poppins py-3 px-2 bg-[#EDF3F9] lg:py-4 lg:px-3 dark:bg-[#21252A] dark:text-white' %}
+
+{% block body %}
+    {% for place in places %}
+        <div class="z-50 grid place-items-center min-h-full">
+            <dialog class="dialog-{{ place.id }} w-full max-w-sm border border-white_smoke rounded-sm
+                           text-left p-2 dark:bg-dark_cards">
+                <h2 class="text-black p-2 font-bold dark:text-white">{{ place.name }}</h2>
+                <h3 class="mb-2 text-black pl-2 italic text-sm dark:text-white">{{ place.address }}</h3>
+                <p class="mb-6 text-slate-700 p-2 text-sm dark:text-white">{{ place.description }}</p>
+                <dl class="pl-2 dark:text-white">
+                    <dt class="font-semibold">Latitude</dt>
+                    <dd class="ml-4">{{ place.latitude }}</dd>
+
+                    <dt class="font-semibold">Longitude</dt>
+                    <dd class="ml-4">{{ place.longitude }}</dd>
+                </dl>
+
+                <div class="controls box-border flex justify-between items-center pl-0">
+                    <a href="{{ path('app_admin_delete_places', {id: place.id}) }}"><button class="close-btn bg-transparent p-2 hover:text-white
+                    hover:border hover:border-red-600 hover:bg-red-600 hover:rounded-lg
+                    outline-none text-red-600 text-xl cursor-pointer">Supprimer</button></a>
+                    <a href="{{ path('app_admin_update_places', {id: place.id}) }}"><button class="close-btn bg-transparent p-2
+                    hover:border hover:border-orange-400 hover:bg-orange-400 hover:rounded-lg hover:text-white
+                    outline-none text-orange-400 text-xl cursor-pointer">Éditer</button></a>
+                    <button class="md:hidden close-btn las la-times bg-transparent p-2 hover:text-white
+                    hover:border hover:border-[#00acee] hover:bg-[#00acee] hover:rounded-lg
+                    outline-none text-[#00acee] text-xl cursor-pointer"></button>
+                    <button class="hidden md:block close-btn bg-transparent p-2 hover:text-white
+                    hover:border hover:border-[#00acee] hover:bg-[#00acee] hover:rounded-lg
+                    outline-none text-[#00acee] text-xl cursor-pointer">Fermer</button>
+                </div>
+            </dialog>
+        </div>
+    {% endfor %}
+    <div class="flex flex-col bg-white px-2 py-3 md:px-4 md:py-5 lg:px-6 lg:py-7 border border-slate-500 rounded-lg flex-grow overflow-x-auto max-w-full dark:bg-dark_cards">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-base mb-3 md:text-2xl lg:text-4xl font-poppins dark:text-white">Liste des lieux</h1>
+            </div>
+            <div class="flex">
+                <a href="{{ path('app_admin_create_places') }}"><button class="md:hidden bg-green-500 text-white rounded-full py-1 px-3 mb-3"><span class="las la-plus"></span></button></a>
+                <a href="{{ path('app_admin_create_places') }}"><button class="hidden md:block bg-green-500 text-white rounded-full py-1 px-3 mb-3 lg:text-base lg:mr-8"><span class="las la-plus md:mr-1"></span>Ajouter</button></a>
+            </div>
+        </div>
+        <table class="table-auto w-full whitespace-nowrap border-collapse">
+            <thead class="overflow-x-auto max-w-full">
+            <tr>
+                <th class="{{ thClass }} text-left" id="select-all"><input type="checkbox"></th>
+                <th class="{{ thClass }} text-left">Id</th>
+                <th class="{{ thClass }} text-left">Nom</th>
+                <th class="{{ thClass }} text-left hidden lg:table-cell">Description</th>
+                <th class="{{ thClass }} text-right hidden lg:table-cell">Latitude</th>
+                <th class="{{ thClass }} text-right hidden lg:table-cell">Longitude</th>
+                <th class="{{ thClass }} text-center hidden lg:table-cell">Temps de visite moyen</th>
+                <th class="{{ thClass }} text-left hidden lg:table-cell">Ville</th>
+                <th class="{{ thClass }} text-left" colspan="3">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="">
+            {% for place in places %}
+                {% set heures = place.visitTime|round %}
+                {% set minutes = ((place.visitTime - heures) * 60)|round %}
+
+                <tr class="">
+                    <td class="{{ tdClass }} text-left"><input type="checkbox" name="place_ids[]" value="{{ place.id }}"></td>
+                    <td class="{{ tdClass }} text-left">{{ place.id }}</td>
+                    <td class="{{ tdClass }}">{{ place.name }}</td>
+                    <td class="{{ tdClass }} whitespace-nowrap overflow-hidden overflow-ellipsis max-w-16 hidden lg:table-cell">
+                        {{ place.description }}
+                    </td>
+                    <td class="{{ tdClass }} text-right hidden lg:table-cell">{{ place.latitude }}</td>
+                    <td class="{{ tdClass }} text-right hidden lg:table-cell">{{ place.longitude }}</td>
+                    <td class="{{ tdClass }} text-center hidden lg:table-cell">{{ '%02d'|format(heures) ~ 'h ' ~ '%02d'|format(minutes) ~ 'min' }}</td>
+                    <td class="{{ tdClass }} text-left hidden lg:table-cell">{{ place.city }}</td>
+                    <td class="{{ tdClass }} text-center md:text-left"><button id="open-popup" data-id="{{ place.id }}" class="las la-eye text-blue-500 text-2xl"></button></td>
+                    <td class="{{ tdClass }} text-center hidden md:table-cell md:text-left"><a href="{{ path('app_admin_update_places', {id: place.id}) }}"><span class="las la-edit text-green-600 text-2xl"></span></a></td>
+                    <td class="{{ tdClass }} text-center hidden md:table-cell md:text-left"><a href="{{ path('app_admin_delete_places', {id: place.id}) }}"><span class="las la-trash text-red-600 text-2xl"></span></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{{ asset('js/popup-backoffice.js') }}"></script>
+    <script src="{{ asset('js/selected-data.js') }}"></script>
+{% endblock %}

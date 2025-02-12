@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <link href="{{ asset('styles/caroussel.css') }}" rel = "stylesheet"/>
+    <script src="{{ asset('js/carrousel.js') }}" async></script>
+    <script async>
+        document.addEventListener('DOMContentLoaded',()=> {
+             new Carousel(document.querySelector("#caroussel"), {
+                slidesToScroll : 1,
+                slidesVisible : 1,
+            })
+        })
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <main class="font-montserrat lg:mx-auto lg:max-w-screen-lg flex-col flex lg:p-4 lg:mt-2">
+        <section class="flex flex-col lg:flex-row-reverse lg:items-center lg:bg-light_pastel dark:bg-l_dark_blue lg:shadow-header_admin lg:w-full lg:mb-12">
+            <div class="lg:flex-row-reverse lg:flex"></div>
+            <div id="caroussel" class="bg-gray-800 lg:bg-transparent lg:w-1/2 lg:m-2 lg-h-fit lg:shadow-carousel-shadow">
+                {% if place.images is not empty %}
+                        {% for image in place.images %}
+                            <img src="{{ path('app_imageById', {id: image.id}) }}" alt="image">
+                        {% endfor %}
+                {% else %}
+                    <img src="{{ asset('/images/default.jpg') }}" alt="image">
+                {% endif %}
+            </div>
+            <div class="bg-light_pastel lg:bg-transparent dark:bg-l_dark_blue p-4 mb-8 lg:mb-0 lg:h-full flex flex-col shadow-header_admin lg:shadow-none lg:w-1/2 dark:text-white">
+                <div class="flex flex-col sm:flex-row sm:items-center lg:mb-4 break-words">
+                    <h2 class="font-semibold text-lg md:text-3xl mr-2">{{ place.name }}</h2>
+                    {{ include('_note.html.twig') }}
+                </div>
+                <p class="text-xs md:text-base leading-5">{{ place.description }}</p>
+            </div>
+        </section>
+        <div class="flex flex-col lg:flex-row lg:gap-4 w-full dark:text-white">
+            <section class="px-4 sm:flex sm:flex-row sm:gap-14 lg:items-center md:mb-8 md:mx-auto block w-full md:w-fit h-fit">
+                <div class="border-t border-b border-black dark:border-white gap-4 mx-auto mb-4 flex-1 px-3 py-8 w-full max-w-72 sm:w-1/2 h-fit">
+                    <h3 class="font-bold text-xl mb-3 md:text-2xl">Horaires</h3>
+                    <div class ="grid grid-cols-2 gap-4 ">
+                    {% for timetable in place.timetable %}
+                            <p class="font-semibold text-sm">{{ timetable.day }}</p>
+                            <p class="font-semibold text-sm">
+                                {{ '%02d'|format(timetable.opening|round(0, 'floor')) }}h{{ '%02d'|format(((timetable.opening - timetable.opening|round(0, 'floor')) / 100 * 6000)|round(0, 'floor')) }}-{{ '%02d'|format(timetable.closing|round(0, 'floor')) }}h{{ '%02d'|format(((timetable.closing - timetable.closing|round(0, 'floor')) / 100 * 6000)|round(0, 'floor')) }}
+                    {% endfor %}
+                    </div>
+                    {% if place.timetable is empty %}
+                        <p class="font-semibold text-xs">Horaires non disponibles</p>
+                    {% endif %}
+                </div>
+                <div class="flex flex-col mb-4 md:mb-0 md:text-lg flex-1 lg:flex-0 w-fit">
+                    <div class="mb-2 w-fit dark:text-white">
+                        <div class="flex items-center gap-2"><i class='bx bx-money text-2xl'></i><p class="font-semibold text-sm">Prix :</p></div>
+                    {% if place.priceMax == 0 %}
+                        <p class="font-medium text-sm ml-3 w-fit">Gratuit</p>
+                    {% else %}
+                        <p class="font-medium text-sm ml-3 w-fit">entre {{ place.priceMin }} et {{ place.priceMax }} € / pers.</p>
+                    {% endif %}
+                    </div>
+                    <div class="mb-2 w-fit dark:text-white">
+                        <div class="flex items-center gap-2"><i class='bx bx-home-alt text-2xl'></i><p class="font-semibold text-sm">Catégorie :</p></div>
+                        <p class="font-medium text-sm ml-3 w-fit">{{ place.category.name }}</p>
+                    </div>
+                    <div class="mb-2 w-fit">
+                        <div class="flex items-center gap-2"><i class='bx bxs-time text-2xl' ></i><p class="font-semibold text-sm">Durée :</p></div>
+                        <p class="font-medium text-sm ml-3 w-fit">{{ '%02d'|format(place.visitTime|round(0, 'floor')) }}h{{ '%02d'|format(((place.visitTime - place.visitTime|round(0, 'floor')) / 100 * 6000)|round(0, 'floor')) }}</p>
+                    </div>
+                    <div class="mb-2 w-fit">
+                        <div class="flex items-center gap-2"><i class='bx bxs-map-pin text-2xl' ></i><p class="font-semibold text-sm">Adresse :</p></div>
+                        <p class="font-medium text-sm ml-3 break-words w-fit">{{ place.address }}</p>
+                    </div>
+                    {% if place.accessibility is not empty %}
+                    <div class="mb-2 w-fit">
+                        <div class="flex items-center gap-2"><i class='bx bx-accessibility text-2xl' ></i><p class="font-semibold text-sm">Accessibilité :</p></div>
+                        {% for acc in place.accessibility %}
+                            <p class="font-medium text-sm ml-3 w-fit">{{ acc.name }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                </div>
+            </section>
+            <div id="place-coords" data-latitude="{{ place.latitude }}" data-longitude="{{ place.longitude }}" data-category="{{ place.category.name }}"></div>
+            <div class="place-map-container shadow-itinerary-map-shadow rounded mx-4 max-w-screen-lg h-40 md:h-64 lg:h-96 lg:flex-1 lg:flex-shrink-0">
+                <a href="{{ path('app_map', {latitude: place.latitude, longitude: place.longitude}) }}">
+                    <div id="map" class="h-40 md:h-64 z-10 map-hover lg:h-96"></div>
+                </a>
+            </div>
+        </div>
+    </main>
+    <script src="{{ asset('js/place-map.js') }}"></script>
+    {{ include('_footer.html.twig') }}
+{% endblock %}

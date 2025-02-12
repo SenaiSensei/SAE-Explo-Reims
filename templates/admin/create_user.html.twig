@@ -1,0 +1,9 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    Création d'un utilisateur
+{% endblock %}
+
+{% block body %}
+    {{ include('user/_form.html.twig', {form: form, submit_label: 'Créer un nouvel utilisateur !', confirm_message: ''}, with_context=false) }}
+{% endblock %}

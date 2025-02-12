@@ -1,0 +1,35 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    Suppression d'une catégorie
+{% endblock %}
+
+{% block body %}
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md dark:bg-dark_cards dark:text-white">
+        <h1 class="text-2xl font-semibold text-red-600 mb-4">Confirmer la suppression</h1>
+
+        <p class="mb-4">Êtes-vous sûr de vouloir supprimer cette Catégorie ?
+            Cette action est irréversible.</p>
+
+        <p class="text-red-600 font-bold mb-4">Attention, tous les lieux avec cette catégorie seront sans catégorie.</p>
+
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold">Détails de la catégorie :</h2>
+            <ul class="list-disc ml-6 mt-2">
+                <li><strong>Nom :</strong> {{ category.name }}</li>
+            </ul>
+        </div>
+
+        {{ form_start(form) }}
+        <div class="flex justify-between">
+            {{ form_widget(form.cancel) }}
+
+            {{ form_widget(form.delete, {
+                attr: {
+                    class: 'bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition',
+                },
+            }) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

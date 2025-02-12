@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap" rel="stylesheet">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body class="bg-pastel dark:bg-dark_blue">
+        <nav class="bg-primary dark:bg-black">
+            <div class="flex justify-between h-16 items-center bg-primary dark:bg-black lg:max-w-6xl lg:m-auto">
+                <div class="flex items-center">
+                    <a href="{{ path('app_home') }}"><img class="w-10 h-10 ml-2.5 md:hidden" src="{{ asset('images/logo.svg') }}" alt="couronne"/></a>
+                    <a href="{{ path('app_home') }}"><h1 class="font-medieval hidden text-4xl font-extrabold ml-3 pt-2 z-40 md:block dark:text-primary">Explo'Reims</h1></a>
+                </div>
+                <div class="z-30 box-border border-t-2 border-zinc-300 dark:border-gray-700 fixed bottom-0 left-0 w-full grid content-center md:static md:border-none">
+                    <ul class="box-border flex justify-around pt-1 bg-primary dark:bg-black font-medieval font-bold md:justify-end md:pt-0 md:text-xl
+                               md:pr-5 md:bg-none lg:text-xl">
+                        <a href="{{ path('app_home') }}">
+                            <li class="flex flex-col items-center md:mr-5 dark:text-primary">
+                                <i class='bx bx-home-alt text-3xl md:hidden'></i>
+                                <p>Accueil</p>
+                            </li>
+                        </a>
+                        <a href="{{ path('app_itinerary') }}">
+                            <li class="flex flex-col items-center md:mr-5 dark:text-primary">
+                                <i class='bx bx-trip text-3xl md:hidden'></i>
+                                <p>Parcours</p>
+                            </li>
+                        </a>
+                        <a href="{{ path('app_place') }}">
+                            <li class="flex flex-col items-center md:mr-5 dark:text-primary">
+                                <i class='bx bx-buildings text-3xl md:hidden'></i>
+                                <p>Lieux</p>
+                            </li>
+                        </a>
+                        <a href="{{ path('app_category') }}">
+                            <li class="flex flex-col items-center md:mr-5 dark:text-primary">
+                                <i class='bx bx-category text-3xl md:hidden'></i>
+                                <p>Catégories</p>
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+
+                <div class="flex flex-row">
+                    {% block research %}
+                    {% endblock %}
+
+                    <div class="flex flex-row relative w-10 items-center">
+                        <input type="checkbox" name="toggle_dark_mode" id="tdm"
+                               class="bx bx-moon dark:text-primary bx-md theme-switch absolute block appearance-none cursor-pointer text-xl-center">
+                        <label for="tdm" class="bx bx-moon bx-md theme-switch-label block overflow-hidden
+                    cursor-pointer text-lg"></label>
+                    </div>
+
+                    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="{{ path('app_login') }}"><i class="bx bxs-user dark:text-primary text-3xl pr-2.5"></i></a>
+                    {% else %}
+                        <a href="{{ path('app_user', { id: app.user.id }) }}" class="mr-4 ml-2.5">
+                            <img src="{{ asset('images/default.jpg') }}"
+                                 alt="Profile Picture"
+                                 class="w-8 h-8 md:w-20 md:h-10 lg:w-20 lg:h-12 rounded-full border-2 border-black object-cover dark:border-white">
+                        </a>
+                    {% endif %}
+                </div>
+
+
+            </div>
+        </nav>
+        {% block body %}{% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            <script src="{{ asset('js/dark_mode.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

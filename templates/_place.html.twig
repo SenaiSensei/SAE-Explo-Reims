@@ -1,0 +1,21 @@
+<div id ="item-{{ place.id }}" class="flex flex-col font-montserrat font-semibold w-36 sm:w-48 lg:w-60 shrink-0
+    tracking-tight relative bg-almond_pastel sm:rounded-2xl rounded-xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
+    hover:shadow-[0px_6px_10px_rgba(0,0,0,0.3)] m-2">
+    <a href="{{ path('app_placeById', {id: place.id}) }}">
+        <img class="rounded-t-xl sm:rounded-t-2xl shadow-md mb-2 w-full h-26 sm:h-32 object-cover"
+         src="{{ path('app_imageByPlaceId', {id: place.id}) }}" alt="image"/>
+    </a>
+    {% if Route ?? false and (Route == 'update' or Route == 'create') %}
+        {{ include('itinerary/_update.html.twig') }}
+    {% endif %}
+    <div class="px-2 pb-2">
+        {% if isGood??false %}
+            {{ include('user/_favorite.html.twig',{isGood:isGood,id:place.id,route:('/place/')}) }}
+        {% endif %}
+        <p class="text-dark_blue text-base">{{ place.name }}</p>
+        {{ include('_note.html.twig', {place: place}) }}
+        <p class="text-dark_blue text-base">{{ place.category.name }}</p>
+        <a href="{{ path('app_placeById', {id: place.id}) }}" class="w-fit text-dark_gold ml-auto hover:text-amber-400 transition-transform duration-300"
+        >En savoir plus</a>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md dark:bg-dark_cards dark:text-white">
+        {{ form_start(form, {attr: {class: 'space-y-4'}}) }}
+        <div class="flex flex-col">
+                {{ form_row(form.name, {label: 'Nom du lieu', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="flex flex-col">
+                {{ form_row(form.description, {label: 'Description', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+                {{ form_row(form.latitude, {label: 'Latitude', attr: {class: 'input-field'}}) }}
+                {{ form_row(form.longitude, {label: 'Longitude', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+                {{ form_row(form.PostalCode, {label: 'Code Postal', attr: {class: 'input-field'}}) }}
+                {{ form_row(form.city, {label: 'Ville', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="flex flex-col">
+                {{ form_row(form.address, {label: 'Adresse', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+                {{ form_row(form.priceMin, {label: 'Prix minimum', attr: {class: 'input-field'}}) }}
+                {{ form_row(form.priceMax, {label: 'Prix maximum', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="flex flex-col">
+                {{ form_row(form.visitTime, {label: 'Temps de visite moyen', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="flex flex-col">
+                {{ form_row(form.note, {label: 'Une note sur 5', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="flex flex-col">
+                {{ form_row(form.accessibility, {label: 'Accessibilités disponibles', attr: {class: 'input-field'}}) }}
+        </div>
+        <div class="flex flex-col">
+                {{ form_row(form.category, {label: 'Catégorie', attr: {class: 'input-field'}}) }}
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+                {% if confirm_message is defined and confirm_message %}
+                        onclick="return confirm('{{ confirm_message }}');"
+                {% endif %}
+        >
+                {{ submit_label }}
+        </button>
+        {{ form_end(form) }}
+</div>

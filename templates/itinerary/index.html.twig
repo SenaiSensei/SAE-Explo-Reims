@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parcours{% endblock %}
+
+{% block body %}
+    {{ include('itinerary/_alert.hml.twig') }}
+    <main class="max-w-6xl mx-auto px-5 pt-10">
+        <h1 class="font-montserrat text-dark_blue dark:text-primary font-bold text-4xl">Parcours</h1>
+        <section class="flex flex-col">
+            <div class="flex items-center my-7">
+                <div class="flex-1 border-t-4 border-dark_gold"></div>
+                <h2 class="mx-2 text-xl sm:text-4xl font-medieval font-semibold text-dark_blue dark:text-primary text-center">Vos parcours</h2>
+                <div class="flex-1 border-t-4 border-dark_gold"></div>
+            </div>
+            {% if user_itineraries %}
+                {{ include('_itineraries_list.html.twig', {itineraries: user_itineraries, user: 'user'}) }}
+            {% elseif logon %}
+                <div class="flex gap-6 lg:gap-10 pb-2 pt-2 w-full overflow-x-auto scrollbar scrollbar-thumb-dark_gold scrollbar-track-transparent itineraryList">
+                    <span class="font-montserrat text-dark_blue dark:text-primary italic font-medium">Vous n'avez pas de parcours.</span>
+                    <a class = "bg-green-500 dark:bg-green-900 font-semibold text-3xl px-5 content-center text-dark_blue dark:text-primary rounded-md shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_10px_rgba(0,0,0,0.3)]" href="{{ path('app_create_itinerary') }}">+</a>
+                </div>
+            {% else %}
+                <span class="font-montserrat text-dark_blue dark:text-primary italic font-medium">Vous n'êtes pas connecté.</span>
+            {% endif %}
+        </section>
+        <section class="flex flex-col">
+            <div class="flex items-center my-7">
+                <div class="flex-1 border-t-4 border-dark_gold"></div>
+                <h2 class="mx-2 text-xl sm:text-4xl font-medieval font-semibold text-dark_blue dark:text-primary text-center">On vous les recommande</h2>
+                <div class="flex-1 border-t-4 border-dark_gold"></div>
+            </div>
+            {% if recommended_itineraries %}
+                {{ include('_itineraries_list.html.twig', {itineraries: recommended_itineraries}) }}
+            {% else %}
+                <span class="font-montserrat text-dark_blue dark:text-primary italic font-medium">Pas de parcours recommandés.</span>
+            {% endif %}
+        </section>
+    </main>
+    <script src="{{ asset('js/delete-itinerary.js') }}" async></script>
+    {{ include('_footer.html.twig') }}
+{% endblock %}

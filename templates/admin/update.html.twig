@@ -1,0 +1,9 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    Édition de {{ place.name }}
+{% endblock %}
+
+{% block body %}
+    {{ include('place/_form.html.twig', {form: form, submit_label: 'Modifier ce lieu !', confirm_message: 'Êtes-vous sûr de vouloir modifier ce lieu ?'}, with_context=false) }}
+{% endblock %}

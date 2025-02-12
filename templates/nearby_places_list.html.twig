@@ -1,0 +1,37 @@
+<div class="flex gap-6 lg:gap-10 pb-8 pt-2 w-full overflow-x-auto scrollbar scrollbar-thumb-dark_gold scrollbar-track-transparent">
+    {% for place in places %}
+        <a href="place/{{ place[0].id }}"><div class="flex flex-col font-montserrat font-semibold w-48 lg:w-60 shrink-0 tracking-tight
+                bg-almond_pastel rounded-2xl shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
+                transition-transform transform hover:translate-y-[-5px] duration-300
+                ease-in-out hover:shadow-[0px_6px_10px_rgba(0,0,0,0.3)]">
+                <img class="rounded-t-2xl shadow-md mb-2 w-full h-32 object-cover" src="{{ path('app_imageById', {id: place[0].id}) }}" alt="placeholder"/>
+                <div class="px-2 pb-2">
+                    <p class="text-dark_blue text-base">{{ place[0].name }}</p>
+                    {% set rate = place[0].note %}
+                    {% set nb_full_stars = rate|round(0, 'floor') %}
+                    {% set nb_empty_stars = 5 - nb_full_stars %}
+                    <div class="flex text-burgundy_red mb-6 lg:mb-12 items-center">
+                        {% for i in range(nb_full_stars, 1) %}
+                            <i class="bx bxs-star"></i>
+                        {% endfor %}
+                        {% if rate < 5 %}
+                            {% if rate - nb_full_stars >= 0.5 %}
+                                <i class="bx bxs-star-half"></i>
+                                {% if nb_full_stars < 4 %}
+                                    {% for i in range(nb_empty_stars - 1, 1) %}
+                                        <i class="bx bx-star"></i>
+                                    {% endfor %}
+                                {% endif %}
+                            {% else %}
+                                {% for i in range(nb_empty_stars, 1) %}
+                                    <i class="bx bx-star"></i>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+{# <span class="ml-1 block">{{ place[0].note }} ({{ rates_counts[place[0].id] }})</span> #}
+                    </div>
+                    <p class="w-fit text-dark_gold ml-auto hover:text-amber-400 transition-transform duration-300">En savoir plus</p>
+                </div>
+            </div></a>
+    {% endfor %}
+</div>

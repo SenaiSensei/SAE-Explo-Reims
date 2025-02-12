@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lieu-category {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+}
+.leaflet-popup-content-wrapper {
+    text-align: center;
+}
+
+html {
+    min-height: 100vh;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.marker-pin {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% 50% 50% 0;
+    background: #c30b82;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 50%;
+    top: 50%;
+    margin: -15px 0 0 -15px;
+}
+
+.marker-pin::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin: 3px 0 0 3px;
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.custom-div-icon i {
+    position: absolute;
+    width: 22px;
+    font-size: 22px;
+    left: 0;
+    right: 0;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.custom-div-icon i.bx {
+    margin: 12px auto;
+    font-size: 17px;
+}
+
+@layer components {
+    .input-field {
+        @apply w-full p-2 border border-gray-300 bg-white dark:bg-dark_bg dark:text-white dark:border-[#313438] text-gray-900 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    }
+}
+
+/* CSS code for the hover effect on the mini-map */
+.place-map-container {
+    position: relative;
+}
+
+.map-hover {
+    position: relative;
+    z-index: 1;
+}
+
+.place-map-container .map-hover {
+    filter: brightness(50%);
+}
+
+.place-map-container::after {
+    content: 'Voir sur la carte';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    opacity: 1;
+    transition: 0.3s ease;
+    z-index: 2;
+}
+
+.place-map-container:hover::after {
+    color: #B79629;
+}
+/* End of the CSS code for the hover effect on the mini-map */
+
+/* CSS code for forms */
+
+.form-input {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #d3d3ba;
+    border: none;
+    border-bottom: 2px solid #B79629;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.form-input:focus {
+    background-color: #ece7d5;
+    border-bottom: 2px solid #ffe38e;
+}
+
+/* End of the CSS code for forms */
+
+* {
+    @apply transition-colors duration-200;
+}

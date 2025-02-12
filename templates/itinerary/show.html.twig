@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ itinerary.name }}{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <main class="px-2 py-4 flex flex-col md:flex-row h-custom-main-min-height w-full max-w-6xl mx-auto">
+        <div class="md:flex-grow md:pr-4 md:h-full flex flex-col flex-grow h-itinerary-description-height">
+            <section class="mb-8 flex-shrink-0">
+                <h1 class="text-4xl font-semibold font-montserrat text-dark_blue dark:text-pastel">{{ itinerary.name }}</h1>
+                <p class="font-montserrat mb-5 dark:text-primary"><i class='bx bx-time'></i> {{ time ? time : 'N/A' }} | <i class='bx bx-run'></i> {{ distance ? distance : 'N/A' }}</p>
+                <div class="font-montserrat">
+                    <h2 class="text-xl font-semibold mb-2 dark:text-primary">Description : </h2>
+                    <p class="font-normal text-sm tracking-tight leading-5 dark:text-primary">{{ itinerary.description }}</p>
+                </div>
+            </section>
+            <section class="pl-2 flex-grow overflow-x-hidden overflow-y-auto flex flex-col items-start scrollbar scrollbar-thumb-dark_gold scrollbar-track-transparent ">
+                <div class="my-auto">
+                {% for place in places %}
+                    <div class="font-montserrat relative pb-6 border-l-2 border-dark_gold">
+                        <div class="absolute top-0 -left-1.5 w-2.5 h-2.5 bg-gold rounded-full"></div>
+                        <a href="/place/{{ place.id }}">
+                            <h4 class="pl-4 font-semibold md:text-lg text-dark_blue dark:text-pastel w-fit transition-transform duration-300 hover:-translate-y-0.5 hover:text-blue-100">{{ place.name }}</h4>
+                        </a>
+                        <p class="pl-4 font-normal text-sm truncate dark:text-primary">{{ place.address }}</p>
+                    </div>
+                {% endfor %}
+                    {% if own %}
+                    <div class="font-montserrat relative pb-6 border-l-2 border-dark_gold">
+                        <div class="absolute top-0 -left-1.5 w-2.5 h-2.5 bg-gold rounded-full z-10"></div>
+                            <a class = "bg-green-500 dark:bg-green-900 font-semibold text-3xl ml-4 px-8 py-2 absolute top-1.5 mb-6 text-dark_blue dark:text-pastel rounded-md" href="{{ path('app_update_itinerary', {id: itinerary.id}) }}">+</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+        <div id="places" class="mt-8" data-places="{{ places|json_encode|e('html_attr') }}"></div>
+
+        <div class="shadow-itinerary-map-shadow flex-shrink-0 rounded md:w-1/2">
+            <div id="map" class="h-40 md:h-full z-10"></div>
+        </div>
+
+        <script src="{{ asset('js/itinerary-map.js') }}"></script>
+    </main>
+    {{ include('_footer.html.twig') }}
+{% endblock %}

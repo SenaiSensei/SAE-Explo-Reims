@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="flex flex-col min-h-screen w-full bg-cover bg-center text-almond_pastel px-9 pt-8 shadow-xl items-center justify-center"
+         style="background-image: url('{{ asset('images/landing_page_bg.png') }}')">
+        <div class="flex items-center justify-center">
+            <form method="post" class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg px-8 pt-6 pb-8 w-full max-w-md">
+                {# Afficher les erreurs de validation #}
+                {{ form_errors(registrationForm) }}
+
+                <h1 class="text-2xl font-bold text-white mb-6 text-center">Inscription</h1>
+
+                {{ form_start(registrationForm) }}
+
+                <div class="mb-6">
+                    <label for="registration_firstname" class="block text-white text-sm font-bold mb-2">Prénom</label>
+                    {{ form_widget(registrationForm.firstname, { 'attr': {
+                        'class': 'shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#f6eccf] focus:border-transparent'
+                    } }) }}
+                </div>
+
+                <div class="mb-6">
+                    <label for="registration_lastname" class="block text-white text-sm font-bold mb-2">Nom</label>
+                    {{ form_widget(registrationForm.lastname, { 'attr': {
+                        'class': 'shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#f6eccf] focus:border-transparent'
+                    } }) }}
+                </div>
+
+                <div class="mb-6">
+                    <label for="registration_email" class="block text-white text-sm font-bold mb-2">Email</label>
+                    {{ form_widget(registrationForm.email, { 'attr': {
+                        'class': 'shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#f6eccf] focus:border-transparent'
+                    } }) }}
+                </div>
+
+                <div class="mb-6">
+                    <label for="registration_phone" class="block text-white text-sm font-bold mb-2">Numéro de téléphone</label>
+                    {{ form_widget(registrationForm.phone, { 'attr': {
+                        'class': 'shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#f6eccf] focus:border-transparent'
+                    } }) }}
+                </div>
+
+                <div class="mb-6">
+                    <label for="registration_plainPassword_first" class="block text-white text-sm font-bold mb-2">Mot de passe</label>
+                    {{ form_widget(registrationForm.password.first, { 'attr': {
+                        'class': 'shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#f6eccf] focus:border-transparent'
+                    } }) }}
+                </div>
+
+                <div class="mb-6">
+                    <label for="registration_plainPassword_second" class="block text-white text-sm font-bold mb-2">Répéter le mot de passe</label>
+                    {{ form_widget(registrationForm.password.second, { 'attr': {
+                        'class': 'shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#f6eccf] focus:border-transparent'
+                    } }) }}
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <button type="submit"
+                            class="bg-white hover:bg-[#f6eccf] text-black font-medieval font-bold mb-4 md:mb-0 md:mr-4 py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        S'inscrire
+                    </button>
+                    <a href="{{ path('app_login') }}" class="text-sm font-bold text-white hover:text-[#f6eccf]">
+                        Déjà inscrit ? Connectez-vous
+                    </a>
+                </div>
+
+                {{ form_end(registrationForm) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}

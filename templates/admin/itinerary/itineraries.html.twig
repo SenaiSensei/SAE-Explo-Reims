@@ -1,0 +1,122 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}
+    Édition des parcours
+{% endblock %}
+
+{% set tdClass = 'border-y-2 border-zinc-100 py-3 px-2 lg:py-4 lg:px-3 dark:text-white dark:border-[#313438]' %}
+{% set thClass = 'font-poppins py-3 px-2 bg-[#EDF3F9] lg:py-4 lg:px-3 dark:bg-[#21252A] dark:text-white' %}
+
+{% block body %}
+
+    {% for itinerary in itineraries %}
+        <div class="z-50 grid place-items-center min-h-full">
+            <dialog class="dialog-{{ itinerary.id }} w-full max-w-sm border border-white_smoke rounded-sm text-left p-4 dark:bg-dark_cards">
+                <div class="flex flex-col">
+                    <div class="flex justify-between items-center dark:text-white">
+                        <div class="flex flex-col">
+                            <div>
+                                <h2 class="text-black font-bold dark:text-white">{{ itinerary.name }}</h2>
+                                <p class="italic">{{ itinerary.description }}</p>
+                            </div>
+                            <div>
+                                <span class="las la-stopwatch mt-4">{{ itinerary.time ? itinerary.time : 'N/A' }}</span>
+                                <span class="las la-running mt-4">{{ itinerary.distance ? itinerary.distance : 'N/A' }}</span>
+
+                                <section class="my-4">
+                                    {% if itinerary.pathOrder is not empty %}
+                                        <h3 class="font-semibold text-base mb-2">Liste des lieux dans ce parcours</h3>
+                                        <ul>
+                                            {% for place in itinerary.pathOrder %}
+                                                <li>{{ place.place.name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>Pas de lieux dans ce parcours</p>
+                                    {% endif %}
+                                    <div>
+                                        {% if itinerary.image is not null %}
+                                            <div class="">
+                                                <img src="{{ path('app_imageById', {id: itinerary.image.id}) }}" alt="Image" class="w-full max-w-[64px] max-h-[64px] h-auto rounded-full">
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+
+                        {% if itinerary.image is not null %}
+                            <div class="">
+                                <img src="{{ path('app_imageById', {id: itinerary.image.id}) }}" alt="Image" class="w-full max-w-[64px] max-h-[64px] h-auto rounded-full">
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="controls box-border flex justify-between items-center pl-0 mt-4">
+                        <a href="{{ path('app_admin_delete_itinerary', {id: itinerary.id}) }}">
+                            <button class="close-btn bg-transparent p-2 hover:text-white hover:border hover:border-red-600 hover:bg-red-600 hover:rounded-lg outline-none text-red-600 text-xl cursor-pointer">Supprimer</button>
+                        </a>
+                        <a href="{{ path('app_admin_update_itinerary', {id: itinerary.id}) }}">
+                            <button class="close-btn bg-transparent p-2 hover:border hover:border-orange-400 hover:bg-orange-400 hover:rounded-lg hover:text-white outline-none text-orange-400 text-xl cursor-pointer">Éditer</button>
+                        </a>
+                        <button class="md:hidden close-btn las la-times bg-transparent p-2 hover:text-white hover:border hover:border-[#00acee] hover:bg-[#00acee] hover:rounded-lg outline-none text-[#00acee] text-xl cursor-pointer"></button>
+                        <button class="hidden md:block close-btn bg-transparent p-2 hover:text-white hover:border hover:border-[#00acee] hover:bg-[#00acee] hover:rounded-lg outline-none text-[#00acee] text-xl cursor-pointer">Fermer</button>
+                    </div>
+                </div>
+            </dialog>
+        </div>
+    {% endfor %}
+
+    <div class="flex flex-col bg-white px-2 py-3 md:px-4 md:py-5 lg:px-6 lg:py-7 border border-slate-500 rounded-lg flex-grow overflow-x-auto max-w-full dark:bg-dark_cards">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-base mb-3 md:text-2xl lg:text-4xl font-poppins dark:text-white">Liste des parcours</h1>
+            </div>
+            <div class="flex">
+                <a href="{{ path('app_admin_create_itinerary') }}"><button class="md:hidden bg-green-500 text-white rounded-full py-1 px-3 mb-3"><span class="las la-plus"></span></button></a>
+                <a href="{{ path('app_admin_create_itinerary') }}"><button class="hidden md:block bg-green-500 text-white rounded-full py-1 px-3 mb-3 lg:text-base lg:mr-8"><span class="las la-plus md:mr-1"></span>Ajouter</button></a>
+            </div>
+        </div>
+        <table class="table-auto w-full whitespace-nowrap border-collapse">
+            <thead class="overflow-x-auto max-w-full">
+                <tr>
+                    <th class="{{ thClass }} text-left" id="select-all"><input type="checkbox"></th>
+                    <th class="{{ thClass }} text-left">Nom</th>
+                    <th class="{{ thClass }} text-left hidden lg:table-cell">Description</th>
+                    <th class="{{ thClass }} text-center hidden lg:table-cell">Durée</th>
+                    <th class="{{ thClass }} text-center hidden lg:table-cell">Distance</th>
+                    <th class="{{ thClass }} text-left hidden md:table-cell">Auteur</th>
+                    <th class="{{ thClass }} text-left hidden">Lieux</th>
+                    <th class="{{ thClass }} text-center" colspan="3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for itinerary in itineraries %}
+                <tr>
+                    <td class="{{ tdClass }} text-left"><input type="checkbox"></td>
+                    <td class="{{ tdClass }}">{{ itinerary.name }}</td>
+                    <td class="{{ tdClass }} whitespace-nowrap overflow-hidden overflow-ellipsis max-w-16 hidden lg:table-cell">
+                        {{ itinerary.description }}
+                    </td>
+                    <td class="{{ tdClass }} text-center hidden lg:table-cell">{{ itinerary.time ? itinerary.time : 'N/A' }}</td>
+                    <td class="{{ tdClass }} text-center hidden lg:table-cell">{{ itinerary.distance ? itinerary.distance : 'N/A' }}</td>
+                    <td class="{{ tdClass }} hidden md:table-cell">{{ itinerary.user.firstname }} {{ itinerary.user.lastname }}</td>
+                    <td class="{{ tdClass }} hidden">
+                        <ul>
+                            {% for place in itinerary.pathOrder %}
+                                <li>{{ place.place.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td class="{{ tdClass }} text-center md:text-left"><button id="open-popup" data-id="{{ itinerary.id }}" class="las la-eye text-blue-500 text-2xl"></button></td>
+                    <td class="{{ tdClass }} text-center hidden md:table-cell md:text-left"><a href="{{ path('app_admin_update_itinerary', {id: itinerary.id}) }}"><span class="las la-edit text-green-600 text-2xl"></span></a></td>
+                    <td class="{{ tdClass }} text-center hidden md:table-cell md:text-left"><a href="{{ path('app_admin_delete_itinerary', {id: itinerary.id}) }}"><span class="las la-trash text-red-600 text-2xl"></span></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{{ asset('js/popup-backoffice.js') }}"></script>
+    <script src="{{ asset('js/selected-data.js') }}"></script>
+{% endblock %}

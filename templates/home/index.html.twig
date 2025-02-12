@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Explo'Reims{% endblock %}
+
+{% block body %}
+    <main>
+        <section class="flex flex-col h-mobile-landing-page-height md:h-md-landing-page-height min-h800:pt-24 w-full
+        bg-cover bg-center text-almond_pastel px-9 pt-8 shadow-xl items-center"
+                 style="background-image: url('{{ asset('images/landing_page_bg.png') }}')">
+            <img class="max-h700:mb-6 mb-28 w-full max-w-xl" src="{{ asset('images/title.png') }}" alt="Explo'Reims" />
+            <div class="font-montserrat font-medium flex flex-col gap-10 text-center text-lg lg:text-xl w-full max-w-3xl">
+                <p class="leading-8">Explorez les trésors de Reims et créez vos propres parcours personnalisés.</p>
+                <p class="leading-8">Que vous soyez de passage ou résident, laissez-vous inspirer par les lieux incontournables de la ville.</p>
+            </div>
+        </section>
+        <section class="flex flex-col px-5 mx-auto mb-6 w-full max-w-6xl">
+            <div class="flex items-center my-7">
+                <div class="flex-1 border-t-4 border-dark_gold"></div>
+                <h2 class="mx-2 text-2xl sm:text-4xl font-medieval font-semibold text-dark_blue dark:text-primary text-center">Notre sélection</h2>
+                <div class="flex-1 border-t-4 border-dark_gold"></div>
+            </div>
+            {{ include('_places_list.html.twig', {places: selection_places}) }}
+        </section>
+        <section class="flex flex-col px-5 mx-auto max-w-6xl">
+            <div class="flex items-center my-7">
+                <div class="flex-1 border-t-4 border-dark_gold"></div>
+                <h2 class="mx-2 text-2xl sm:text-4xl font-medieval font-semibold text-dark_blue dark:text-primary text-center">Autour de vous</h2>
+                <div class="flex-1 border-t-4 border-dark_gold"></div>
+            </div>
+            <section id="nearby-places-section">
+                {% if nearby_places %}
+                    {{ include('nearby_places_list.html.twig', {places: nearby_places}) }}
+                {% else %}
+                    <span class="font-montserrat text-dark_blue dark:text-primary italic font-medium" id="share-location">Partagez votre localisation.</span>
+                {% endif %}
+            </section>
+        </section>
+    </main>
+    {{ include('_map_button.html.twig') }}
+    {{ include(('_footer.html.twig')) }}
+    <script src="{{ asset('js/getLocation.js') }}"></script>
+{% endblock %}

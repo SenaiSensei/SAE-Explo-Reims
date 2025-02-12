@@ -1,0 +1,8 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    {{ include('place/_form.html.twig', {form: form, submit_label: 'Créer un lieu !', confirm_message: ''}, with_context=false) }}
+{% endblock %}
