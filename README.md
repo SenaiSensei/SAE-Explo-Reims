@@ -83,7 +83,7 @@ In the development context, here are some users you can use to log to the app, a
 To install this project, simply clone the git repository on your machine.
 
 ```bash
-git clone https://iut-info.univ-reims.fr/gitlab/vida0018/sae3-01.git
+git clone https://github.com/SenaiSensei/SAE-Explo-Reims.git
 ```
 
 ### **Node.js** and **npm** configuration
